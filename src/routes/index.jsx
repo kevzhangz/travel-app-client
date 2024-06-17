@@ -1,12 +1,19 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 import HomeLayout from '../layouts/HomeLayout';
-import BookingForm from '../pages/BookingForm';
+import DashboardLayout from '../layouts/DashboardLayout';
 import {
   Home,
+  BookingForm,
   Login,
   NotFound,
-  Register
+  Register,
+  AdminLogin,
+  AdminRegister,
+  Dashboard,
+  Order,
 } from '../pages'
+import Guest from '../middleware/Guest';
+import Admin from '../middleware/Admin';
 
 
 export default function MainRouter() {
@@ -25,16 +32,32 @@ export default function MainRouter() {
       ]
     },
     {
+      path: '/dashboard',
+      element: <Admin><DashboardLayout/></Admin>,
+      children: [
+        { path: '', element: <Dashboard/>},
+        { path: 'order', element: <Order/>},
+      ]
+    },
+    {
       path: '/booking',
       element: <BookingForm/>
     },
     {
       path: '/register',
-      element: <Register/>
+      element: <Guest><Register/></Guest>
     },
     {
       path: '/login',
-      element: <Login/>
+      element: <Guest><Login/></Guest>
+    },
+    {
+      path: '/admin/login',
+      element: <Guest><AdminLogin/></Guest>
+    },
+    {
+      path: '/admin/register',
+      element: <Guest><AdminRegister/></Guest>
     },
     {
       path: '*',

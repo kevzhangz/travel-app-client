@@ -11,12 +11,46 @@ const searchFlight = async (data) => {
       })
       return await response.json()
     } catch (err) {
-      console.log('wer')
       console.log(err)
     }
 }
 
+const placeFlightOrder = async (data, token) => {
+  try {
+    let response = await fetch(`${import.meta.env.VITE_API_URL}/api/flight/order`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+    return await response.json()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const listOrder = async (token) => {
+  try {
+    let response = await fetch(`${import.meta.env.VITE_API_URL}/api/flight/order`, {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+    })
+    return await response.json()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 
 export default {
-    searchFlight
+    searchFlight,
+    listOrder,
+    placeFlightOrder
 }

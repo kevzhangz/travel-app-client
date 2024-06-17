@@ -1,36 +1,36 @@
-import { useState } from 'react';
+import React from 'react';
 import { Grid, TextField, Button, Container, Typography, Box, Link } from '@mui/material';
+import image from '../../../assets/registerImage.png';
+import AuthServices from '../../../services/AuthServices';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthServices from '../../services/AuthServices';
-import auth from '../../helpers/auth';
-import image from '../../assets/loginImage.png';
 
-export default function Login(){
+export default function AdminRegister(){
     const navigate = useNavigate();
     const [values, setValues] = useState({
-      username: '',
-      password: '',
-      error: '',
-      role: 'user',
-      signedIn: false,
+        name: '',
+        username: '',
+        password: '',
+        error: '',
+        role: 'admin',
+        signedIn: false,
     })
-  
+    
     const handleSubmit = (event) => {
-      event.preventDefault();
-  
-      AuthServices.login(values).then(data => {
-        if(data.error){
-          setValues({...values, error: data.error})
-        } else {
-          auth.authenticate(data, () => {
-            navigate('/home')
-          })
-        }
-      })
+        event.preventDefault();
+
+        AuthServices.register(values).then(data => {
+            console.log(data);
+            if(data.message){
+                navigate('/admin/login')
+            } else {
+                setValues({...values, error: data.error })
+            }
+        })
     };
-  
+
     const handleChange = name => event => {
-      setValues({...values, [name]: event.target.value })
+        setValues({...values, [name]: event.target.value })
     }
 
     return (
@@ -41,15 +41,21 @@ export default function Login(){
                         <h1 style={{ color: "#4093CE" }}>TravelSkyline</h1>
                     </Box>
                     <Typography style={{ fontSize: 32, fontWeight: 600, marginTop: '1rem', marginBottom: '1rem' }}>
-                        Sign In.
+                        Admin Sign Up.
                     </Typography>
                     <Typography variant="body1" style={{ marginBottom: '1rem' }}>
-                        Don't have an account? <Link href="/register" style={{ color: '#4093CE' }}>Register</Link>
+                        Already have an account? <Link href="/admin/login" style={{ color: '#4093CE' }}>Login</Link>
                     </Typography>
+                    {
+                        values.error && (<Typography component="p" sx={{ mb: 2 }} color="error">
+                        {values.error}
+                        </Typography>)
+                    }
                     <Box component="form" sx={{ '& .MuiTextField-root': { marginBottom: '1rem', width: '100%' } }}>
+                        <TextField label="Name" onChange={handleChange('name')} variant="outlined" required />
                         <TextField label="Username" onChange={handleChange('username')} variant="outlined" required />
                         <TextField label="Password" onChange={handleChange('password')} type="password" variant="outlined" required />
-                        <Button variant="contained" onClick={handleSubmit} color="primary" type="submit" fullWidth>Login</Button>
+                        <Button variant="contained" color="primary" onClick={handleSubmit} type="submit" fullWidth>Register</Button>
                     </Box>
                 </Container>
             </Grid>

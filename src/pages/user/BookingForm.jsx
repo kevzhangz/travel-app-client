@@ -13,16 +13,23 @@ import {
   CardHeader,
   Divider
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Add, Remove } from '@mui/icons-material';
 import NotFound from './NotFound';
-import { toTitleCase } from '../helpers/helpers';
+import { toTitleCase } from '../../helpers/helpers';
+import FlightServices from '../../services/FlightServices';
+import auth from '../../helpers/auth';
 
 const BookingForm = () => {
+  const token = auth.isAuthenticated().token
   const location = useLocation();
 
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
+      flight_details: {
+        ...location.state.destinationData,
+        leaving_date: location.state.destinationData.leaving_date.$d,
+        returning_date: location.state.destinationData.returning_date.$d,
+      },
       contact_details: {
           first_name: '',
           last_name: '',
@@ -65,39 +72,43 @@ const BookingForm = () => {
 
     // Function to handle change in form fields
     const handleChange = (e, index = null) => {
-        const { name, value } = e.target;
 
-        if (index !== null) {
-            // Update traveler_details
-            const updatedTravelerDetails = formData.traveler_details.map((traveler, i) => {
-                if (i === index) {
-                    return { ...traveler, [name]: value };
-                }
-                return traveler;
-            });
+      const { name, value } = e.target;
 
-            setFormData({
-                ...formData,
-                traveler_details: updatedTravelerDetails
-            });
-        } else {
-            // Update contact_details
-            setFormData({
-                ...formData,
-                contact_details: {
-                    ...formData.contact_details,
-                    [name]: value
-                }
-            });
-        }
+      if (index !== null) {
+          // Update traveler_details
+          const updatedTravelerDetails = formData.traveler_details.map((traveler, i) => {
+              if (i === index) {
+                  return { ...traveler, [name]: value };
+              }
+              return traveler;
+          });
+
+          setFormData({
+              ...formData,
+              traveler_details: updatedTravelerDetails
+          });
+      } else {
+          // Update contact_details
+          setFormData({
+              ...formData,
+              contact_details: {
+                  ...formData.contact_details,
+                  [name]: value
+              }
+          });
+      }
     };
 
   const handleSubmit = () => {
-    console.log('submit')
+    FlightServices.placeFlightOrder(formData, token).then(result => {
+      if(result.messages){
+
+      } else {
+        setError(result.error)
+      }
+    })
   }
-
-  console.log(location.state.destinationData);
-
 
   return location.state ? <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
       <Grid container spacing={3}>
@@ -215,6 +226,11 @@ const BookingForm = () => {
             </Grid>
             </CardContent>
           </Card>
+          {
+            error && (<Typography component="p" sx={{ mt: 5, mb: 2 }} color="error">
+            {error}
+            </Typography>)
+          }
         </Grid>
       </Grid>
       <Box mt={3} textAlign="right">

@@ -1,7 +1,7 @@
-import Hero from '../components/Hero';
+import Hero from '../../components/Hero';
 import { Grid, Typography } from '@mui/material';
-import DestinationCard from '../components/DestinationCard';
-import DestinationSearch from '../components/DestinationSearch';
+import DestinationCard from '../../components/DestinationCard';
+import DestinationSearch from '../../components/DestinationSearch';
 
 const Home = () => {
   return <>
