@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { Button, Typography, Container, Box } from '@mui/material';
+import image from '../../assets/404.png'
 
 const StyledContent = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -13,7 +14,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 const NotFound = () => {
   return(
-	<Container>
+	<Box sx={{ width: '95vw' }}>
 		<StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
 			<Typography variant="h3" paragraph>
 				Sorry, page not found!
@@ -26,15 +27,15 @@ const NotFound = () => {
 
 			<Box
 				component="img"
-				src="/404.svg"
+				src={image}
 				sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
 			/>
 
-			<Button href="/" size="large" variant="contained">
+			<Button href="/home" variant="contained" sx={{ color: 'white' }}>
 				Go to Home
 			</Button>
 		</StyledContent>
-	</Container>
+	</Box>
   )
 }
 

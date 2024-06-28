@@ -11,6 +11,7 @@ import {
   AdminRegister,
   Dashboard,
   Order,
+  PaymentSuccess
 } from '../pages'
 import Guest from '../middleware/Guest';
 import Admin from '../middleware/Admin';
@@ -27,8 +28,9 @@ export default function MainRouter() {
       element: <HomeLayout/>,
       children: [
         { element: <Navigate to="/home" />, index: true },
-        { path: '/home', element: <Home/>},
-        { path: '/booking', element: <BookingForm/>}
+        { path: 'home', element: <Home/>},
+        { path: 'booking', element: <BookingForm/>},
+        { path: 'payment/success', element: <PaymentSuccess/>}
       ]
     },
     {

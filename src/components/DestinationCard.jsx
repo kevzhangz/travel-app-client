@@ -4,10 +4,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 
 export default function DestinationCard(props) {
-  let {id} = props
+  let {id, image, destination, price} = props
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -15,20 +16,16 @@ export default function DestinationCard(props) {
         component="img"
         alt="destination"
         height="225"
-        image={`https://picsum.photos/200/300?random=${id}`}
+        image={image}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {destination}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Rating style={{ color: '#4093CE' }} value={5} readOnly />
+        <Typography>{price}</Typography>
       </CardActions>
     </Card>
   );

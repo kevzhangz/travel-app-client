@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   IconButton,
+  Container,
   Grid,
   Paper,
   TextField,
@@ -22,6 +23,7 @@ import auth from '../../helpers/auth';
 const BookingForm = () => {
   const token = auth.isAuthenticated().token
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -70,49 +72,58 @@ const BookingForm = () => {
       }));
   }, [location.state.destinationData]);
 
-    // Function to handle change in form fields
-    const handleChange = (e, index = null) => {
+  // Function to handle change in form fields
+  const handleChange = (e, index = null) => {
 
-      const { name, value } = e.target;
+    const { name, value } = e.target;
 
-      if (index !== null) {
-          // Update traveler_details
-          const updatedTravelerDetails = formData.traveler_details.map((traveler, i) => {
-              if (i === index) {
-                  return { ...traveler, [name]: value };
-              }
-              return traveler;
-          });
+    if (index !== null) {
+        // Update traveler_details
+        const updatedTravelerDetails = formData.traveler_details.map((traveler, i) => {
+            if (i === index) {
+                return { ...traveler, [name]: value };
+            }
+            return traveler;
+        });
 
-          setFormData({
-              ...formData,
-              traveler_details: updatedTravelerDetails
-          });
-      } else {
-          // Update contact_details
-          setFormData({
-              ...formData,
-              contact_details: {
-                  ...formData.contact_details,
-                  [name]: value
-              }
-          });
-      }
-    };
+        setFormData({
+            ...formData,
+            traveler_details: updatedTravelerDetails
+        });
+    } else {
+        // Update contact_details
+        setFormData({
+            ...formData,
+            contact_details: {
+                ...formData.contact_details,
+                [name]: value
+            }
+        });
+    }
+  };
 
   const handleSubmit = () => {
     FlightServices.placeFlightOrder(formData, token).then(result => {
       if(result.messages){
-
+        window.snap.embed(result.transactionToken, {
+          embedId: 'snap-container',
+          onSuccess: () => {
+            FlightServices.updateOrderStatus(result.orderId, token).then(res => {
+              if(res.messages){
+                navigate(`/payment/success`, { state: { orderId: result.orderId, price: formData.price } });
+              }
+            })
+          }
+        });
       } else {
         setError(result.error)
       }
     })
   }
 
-  return location.state ? <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
+  return location.state ? <Box component="main" sx={{ width: '90vw', bgcolor: 'background.default', p: 3 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Contact Details
@@ -197,7 +208,7 @@ const BookingForm = () => {
             </Paper>
           ))}
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Card elevation={3}>
             <CardHeader sx={{ textAlign: 'center' }} title={`${location.state.destinationData.from.city} ➔ ${location.state.destinationData.to.city}`} />
             <CardContent>
@@ -231,6 +242,9 @@ const BookingForm = () => {
             {error}
             </Typography>)
           }
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <div style={{ width: '100%' }} id="snap-container"></div>
         </Grid>
       </Grid>
       <Box mt={3} textAlign="right">

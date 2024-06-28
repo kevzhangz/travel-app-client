@@ -6,6 +6,7 @@ import Hero from '../components/Hero';
 import Destinations from '../components/DestinationSearch';
 import { Grid, Typography } from '@mui/material';
 import DestinationCard from '../components/DestinationCard';
+import { Helmet } from 'react-helmet';
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -33,6 +34,11 @@ const Main = styled('div')(({ theme }) => ({
 const Layout = () => {
   return(
     <StyledRoot>
+      <Helmet>
+      <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-ZCUryak1Z9FBi05r"></script>
+      </Helmet>
       <Nav key="navbar" drawerWidth={drawerWidth}/>
       <Main>
         <Box

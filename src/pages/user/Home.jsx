@@ -2,6 +2,9 @@ import Hero from '../../components/Hero';
 import { Grid, Typography } from '@mui/material';
 import DestinationCard from '../../components/DestinationCard';
 import DestinationSearch from '../../components/DestinationSearch';
+import berlin from '../../assets/berlin.png'
+import maldives from '../../assets/maldives.png'
+import swiss from '../../assets/swiss.png'
 
 const Home = () => {
   return <>
@@ -11,9 +14,9 @@ const Home = () => {
     <Typography sx={{ fontSize: 50, fontWeight: 'bold', textAlign: 'center' }}>Explore Top Destination</Typography>
 
     <Grid container spacing={10} sx={{ mt: 1, justifyContent: 'center' }}>
-        <Grid item><DestinationCard id="1"></DestinationCard></Grid>
-        <Grid item><DestinationCard id="2"></DestinationCard></Grid>
-        <Grid item><DestinationCard id="3"></DestinationCard></Grid>
+        <Grid item><DestinationCard id="1" image={berlin} destination="Berlin, German" price="$800"></DestinationCard></Grid>
+        <Grid item><DestinationCard id="2" image={maldives} destination="Maldives, Maldives" price="$862"></DestinationCard></Grid>
+        <Grid item><DestinationCard id="3" image={swiss} destination="Zermat, Swiss" price="$1300"></DestinationCard></Grid>
     </Grid>
     
     <div id="about-us">

@@ -32,6 +32,23 @@ const placeFlightOrder = async (data, token) => {
   }
 }
 
+const updateOrderStatus = async (orderId, token) => {
+  try {
+    let response = await fetch(`${import.meta.env.VITE_API_URL}/api/flight/orderStatus`, {
+      method: 'PUT',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({orderId})
+    })
+    return await response.json()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const listOrder = async (token) => {
   try {
     let response = await fetch(`${import.meta.env.VITE_API_URL}/api/flight/order`, {
@@ -52,5 +69,6 @@ const listOrder = async (token) => {
 export default {
     searchFlight,
     listOrder,
-    placeFlightOrder
+    placeFlightOrder,
+    updateOrderStatus
 }

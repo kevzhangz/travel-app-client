@@ -154,7 +154,7 @@ function SlideDialog({ open, onClose, flightData, destinationData }) {
                         <Typography variant="h6">{flightData.airlineName}</Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Box display="flex" alignItems="center" justifyContent="center">
+                      <Box display="flex" alignItems="center" justifyContent="center">
                         <Box textAlign="center" mx={2}>
                             <Typography variant="h6">{flightData.departure.at}</Typography>
                             <Typography variant="body2" color="textSecondary">{flightData.departure.iataCode}</Typography>
@@ -174,7 +174,7 @@ function SlideDialog({ open, onClose, flightData, destinationData }) {
                         <Typography variant="h6">{flightData.arrival.at}</Typography>
                             <Typography variant="body2" color="textSecondary">{flightData.arrival.iataCode}</Typography>
                         </Box>
-                        </Box>
+                      </Box>
                     </Grid>
                     <Grid item xs={3}>
                         <Box display="flex" flexDirection="column" alignItems="center">

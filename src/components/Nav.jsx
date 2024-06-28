@@ -56,9 +56,11 @@ export default function Navbar(props) {
         sx={{ width: `calc(100% - ${drawerWidth}px)` }}
       >
         <Toolbar>
-          <Box sx={{ justifyContent: 'flex-start', width: '100%', flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-            <h2 style={{ color: '#4093CE' }}>TravelSkyline</h2>
-          </Box>
+          <Link to="/home">
+            <Box sx={{ justifyContent: 'flex-start', width: '100%', flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+              <h2 style={{ color: '#4093CE' }}>TravelSkyline</h2>
+            </Box>
+          </Link>
           <Grid container justifyContent='center'>
               {pages.map((page) => (
               <Grid item>
